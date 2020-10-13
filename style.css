@@ -228,4 +228,6 @@
       height: 1px;
       background-color: var(--grey);
       border: none;
+      width: 90%;
+      margin: 0 auto;
   }
