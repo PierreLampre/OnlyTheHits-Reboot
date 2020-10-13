@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>OnlyTheHits</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@200&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="./style.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+        <div id="init-container">
+            <div class="init-header">
+                <img class="spotify-icon" src="./img/spot.svg" alt="Spotify" />
+                <h1 class="init-header-h1">OnlyTheHits</h1>
+            </div>
+            <div class="playlist-name-container">
+                <h2 class="init-playlist-h2">Create A Playlist</h2>
+                <input type="text" id="playlist-name" name="playlist-name" />
+                <img class="play-btn" src="./img/play.svg" id="init-play-btn"/>
+            </div>
+        </div>
+        <div class="logged-in-container">
+            <div class="left-container">
+                <div class="left-header">
+                    <h3 class="left-h3">YOUR PLAYLISTS</h3>
+                    <div class="user-playlists">
+
+                    </div>
+                </div>
+            </div>
+            <div class="middle-container">
+                <div class="search-input">
+                    <div class="search-input-left">
+                        <img src="./img/back.svg" class="direct-btn" alt="back" />
+                        <img src="./img/forward.svg" class="direct-btn" alt="forward"/>
+                        <input type="text" id="artist-search" name="artist-search" />
+                    </div>
+                <div class="search-input-right">
+                    <div class="user-info">
+                        <img src="./img/me_simba.jpg" class="user-img" alt="You"/>
+                        <h3 class="user-name">Pierre Lampre</h3>
+                        <img src="./img/down.svg" class="down-arrow" alt="down" />
+                    </div>
+                </div>
+                  
+                </div>
+                <a href="https://ttime.bandcamp.com/" class="ttime-ad" target="_blank"><div></div></a>
+                <div class="middle-content">
+                    <div class="artists">
+                        <div class="artists-header">
+                            <h3 class="artists-h3">Artists</h3>
+                            <div class="artist-arrows">
+                                <img src="./img/back.svg" class="direct-btn" alt="back" />
+                                <img src="./img/forward.svg" class="direct-btn" alt="forward"/>
+                            </div>
+                        </div>
+                        <div class="artists-display">
+                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="right-container">
+                <div class="right-header">
+                    <h3 class="right-h3">Playlist Tracks</h3>
+                    <hr />
+                    <div class="playlist-tracks">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./app.js" async defer></script>
+    </body>
+</html>
