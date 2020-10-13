@@ -70,6 +70,7 @@ console.log(userInfo);
 //getUserPlaylists Global Vars
 
 let playlistNames = [];
+let empty = [];
 
 function getUserPlaylists() {
   fetch("https://api.spotify.com/v1/me/playlists", {
@@ -112,7 +113,7 @@ function playlistNameErrorHandle() {
 
 function undoPlaylistNameErrorHandle() {
   playlistInput.style.border = "none";
-  playlistInput.placeholder = "none";
+  playlistInput.placeholder = "";
 }
 
 function hideLandingPage() {
@@ -149,7 +150,28 @@ function createPlaylist() {
       );
     });
     hideLandingPage();
-    playlistNames.unshift(playlistName);
+    playlistNames = empty;
     getUserPlaylists();
+    playlistNames.unshift(playlistName);
+    playlistInput.value = "";
+
   }
+}
+
+//Making that New Playlist button glow like a champion.
+
+function plusIconGlow(){
+    document.getElementById("plus").src = "./img/white-plus.svg";
+    document.getElementById("new-playlist").style.color = "white";
+}
+
+function plusIconDull(){
+    document.getElementById("plus").src = "./img/plus.svg"
+    document.getElementById("new-playlist").style.color = "rgb(196, 194, 202)";
+}
+
+//onclick for creating new playlist from logged in ui
+
+function makeAnotherPlaylist(){
+    document.getElementById("init-container").style.display = "grid";
 }
