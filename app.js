@@ -104,6 +104,8 @@ function getUserPlaylists() {
   });
 }
 
+//Handle case that user triggers function with no text input
+
 let playlistInput = document.getElementById("playlistName");
 
 function playlistNameErrorHandle() {
@@ -175,3 +177,69 @@ function plusIconDull(){
 function makeAnotherPlaylist(){
     document.getElementById("init-container").style.display = "grid";
 }
+
+//Global Arrays for getSimilarArtists storage
+
+let similarArtists = [];
+
+function getSimilarArtists() {
+
+    let bandID = "";
+    let initArtist = document.querySelector("#artist-search").value.toString();
+    initArtist = initArtist.split(' ').join('+');
+
+    if(initArtist !== "") {
+
+    fetch("https://api.spotify.com/v1/search?query=" + initArtist + "&offset=0&limit=1&type=artist", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + _token,
+    },
+  }).then((response) => {
+    console.log(
+      response.json().then((data) => {
+
+        bandId = data.artists.items[0].id;
+
+        fetch(`https://api.spotify.com/v1/artists/${bandId}/related-artists`, {
+        method: "GET",
+        headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + _token,
+        },
+    }).then((response) => {
+        console.log(
+        response.json().then((data) => {
+            similarArtists = data;
+            console.log(similarArtists);
+        })
+        );
+    });
+
+      })
+    );
+  });
+
+  document.querySelector("#artist-search").value = "";
+  document.querySelector("#artist-search").style.border = "none";
+  document.querySelector("#artist-search").placeholder = "Search";
+
+  } else {
+    document.querySelector("#artist-search").style.border = "3px solid red";
+    document.querySelector("#artist-search").placeholder = "Enter an artist's name.";
+  }
+
+}
+
+const artistSearchBox = document.getElementById("artist-search");
+
+artistSearchBox.addEventListener("keypress", function(e){
+    if(e.key === "Enter") {
+        getSimilarArtists();
+    }
+});
+
+
