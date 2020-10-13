@@ -1,7 +1,7 @@
 :root {
     /* Color Variables */
-    --main-bg-color: rgb(43, 41, 41);
-    --sidebar-bg-color: rgb(24, 24, 24);
+    --main-bg-color:rgb(24, 24, 24);
+    --sidebar-bg-color: rgb(18, 18, 18);
     --contrast: #fff;
     --green: rgb(16, 188, 76);
     --player-bg-color: rgb(45, 45, 45);
@@ -80,7 +80,7 @@
 
   .logged-in-container{
     display: grid;
-    grid-template-columns: 20% 60% 20%;
+    grid-template-columns: 15% 70% 15%;
   }
 
   /* Left Container Styles */
@@ -102,6 +102,15 @@
     color: rgb(196, 194, 202);
   }
 
+  #userPlaylists > ul {
+      margin-top: 12px;
+  }
+
+  #userPlaylists > ul > li{
+    margin: 12px 0;
+    list-style: none;
+  }
+
   /* Middle Container Styles */
 
   .middle-container{
@@ -109,7 +118,7 @@
     height: 100vh;
     background-color: var(--main-bg-color);
     display: grid;
-    grid-template-rows: 10% 25% 65%; 
+    grid-template-rows: 10% 30% 60%; 
   }
 
   .search-input{
@@ -133,11 +142,12 @@
       border-radius: 30px;
       height: 36px;
       width: 225px;
-      padding: 6px 12px;
+      padding: 6px 12px 4px 12px;
       color: black;
       background-image: url("./img/search.svg");
       background-repeat: no-repeat;
       text-indent: 20px;
+      font-size: 18px;
   }
 
   #artist-search:focus{
@@ -192,7 +202,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 64px 32px 24px 32px;
+      padding: 48px 32px 24px 32px;
   }
 
   .artists-display{
