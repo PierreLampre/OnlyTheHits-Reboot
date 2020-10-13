@@ -26,8 +26,8 @@
             </div>
             <div class="playlist-name-container">
                 <h2 class="init-playlist-h2">Create A Playlist</h2>
-                <input type="text" id="playlist-name" name="playlist-name" />
-                <img class="play-btn" src="./img/play.svg" id="init-play-btn"/>
+                <input type="text" id="playlistName" name="playlist-name" />
+                <img class="play-btn" src="./img/play.svg" id="init-play-btn" onclick="createPlaylist()"/>
             </div>
         </div>
         <div class="logged-in-container">
@@ -35,7 +35,7 @@
                 <div class="left-header">
                     <h3 class="left-h3">YOUR PLAYLISTS</h3>
                     <div class="user-playlists" id="userPlaylists">
-
+                        <ul id="userUl"></ul>
                     </div>
                 </div>
             </div>
