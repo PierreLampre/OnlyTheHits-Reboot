@@ -242,4 +242,38 @@ artistSearchBox.addEventListener("keypress", function(e){
     }
 });
 
+//Carousel of Similar Artists.
+
+const carouselImgs = document.getElementById("carouselImgs");
+const prev = document.getElementById("previous");
+const next = document.getElementById("next");
+const numberOfCards = document.querySelectorAll(".carousel-img").length;
+let imageIndex = 1;
+let translateX = 0;
+
+
+
+prev.addEventListener("click", e => {
+    if(e.target.id === "previous") {
+        if(imageIndex !== 1) {
+            imageIndex--;
+            translateX += 1022;
+        }
+    }
+    carouselImgs.style.transform = `translateX(${translateX}px)`;
+})
+
+next.addEventListener("click", e => {
+    if(e.target.id === "next") {
+        if(imageIndex <= 4) {
+            imageIndex++;
+            translateX -= 1022;
+        }
+    }
+    carouselImgs.style.transform = `translateX(${translateX}px)`;
+})
+
+
+
+
 

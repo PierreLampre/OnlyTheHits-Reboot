@@ -181,7 +181,7 @@
       color: black;
       background-image: url("./img/search.svg");
       background-repeat: no-repeat;
-      text-indent: 20px;
+      text-indent: 25px;
       font-size: 18px;
   }
 
@@ -237,15 +237,38 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 48px 32px 24px 32px;
+      padding: 24px 32px 16px 32px;
   }
 
   .artists-display{
       grid-row: 2 / 3;
+      display: flex;
+      align-items: start;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      width: 1030px;
   }
 
   .middle-content{
       grid-row: 3 / 4;
+  }
+
+  .carousel-imgs{
+      display: flex;
+      transform: translateX(0);
+      transition: transform 0.5s;
+      padding: 0 40px;
+  }
+  
+  .carousel-imgs > img {
+      width: 220px;
+      height: 220px;
+      margin-right: 35px;
+  }
+
+  .carousel-imgs > img:first-of-type{
+      margin-left: 4140px;
   }
 
   /* Right Container Styles */
