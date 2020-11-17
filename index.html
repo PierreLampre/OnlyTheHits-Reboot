@@ -48,7 +48,7 @@
                     <div class="search-input-left">
                         <img src="./img/back.svg" class="direct-btn" alt="back" />
                         <img src="./img/forward.svg" class="direct-btn" alt="forward"/>
-                        <input type="text" id="artist-search" name="artist-search" placeholder="Search" />
+                        <input type="text" id="artist-search" name="artist-search" placeholder="Search" onfocus="clearInput()" onblur="replacePlaceholderText()" />
                     </div>
                 <div class="search-input-right">
                     <div class="user-info">
@@ -71,26 +71,7 @@
                         </div>
                         <div class="artists-display">
                             <div class="carousel-imgs" id="carouselImgs">
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
-                                <img src="./img/me_simba.jpg" class="carousel-img" />
+                                <div class="suggestion">Search for similar artists...</div>
                             </div>
                         </div>
                     </div>

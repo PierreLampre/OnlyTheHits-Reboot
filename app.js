@@ -47,25 +47,18 @@ function getUserInfo() {
       Authorization: "Bearer " + _token,
     },
   }).then((response) => {
-    console.log(
-      response.json().then((data) => {
-        console.log(data);
-        let user_name = data.display_name;
-        let user_img = data.images[0].url;
-        let user_id = data.id;
-        // console.log(user_name);
-        console.log("the id is " + user_id);
-        document.getElementById("userName").textContent = user_name;
-        document.getElementById("userImg").src = user_img;
-        userInfo.push(user_name, user_img, user_id);
-      })
-    );
+    response.json().then((data) => {
+      let user_name = data.display_name;
+      let user_img = data.images[0].url;
+      let user_id = data.id;
+      document.getElementById("userName").textContent = user_name;
+      document.getElementById("userImg").src = user_img;
+      userInfo.push(user_name, user_img, user_id);
+    });
   });
 }
 
 getUserInfo();
-
-console.log(userInfo);
 
 //getUserPlaylists Global Vars
 
@@ -81,26 +74,23 @@ function getUserPlaylists() {
       Authorization: "Bearer " + _token,
     },
   }).then((response) => {
-    console.log(
-      response.json().then((data) => {
-        console.log(data);
-        for (let i = 0; i < data.items.length; i++) {
-          playlistNames.push(data.items[i].name);
-        }
-        //Fill out user playlists in left sidebar
+    response.json().then((data) => {
+      for (let i = 0; i < data.items.length; i++) {
+        playlistNames.push(data.items[i].name);
+      }
+      //Fill out user playlists in left sidebar
 
-        let userPlaylists = document.querySelector("#userPlaylists");
+      let userPlaylists = document.querySelector("#userPlaylists");
 
-        userPlaylists.innerHTML =
-          "<ul>" +
-          playlistNames
-            .map(function (playlistName) {
-              return "<li>" + playlistName + "</li>";
-            })
-            .join("") +
-          "</ul>";
-      })
-    );
+      userPlaylists.innerHTML =
+        "<ul>" +
+        playlistNames
+          .map(function (playlistName) {
+            return "<li>" + playlistName + "</li>";
+          })
+          .join("") +
+        "</ul>";
+    });
   });
 }
 
@@ -119,15 +109,12 @@ function undoPlaylistNameErrorHandle() {
 }
 
 function hideLandingPage() {
-    document.getElementById("init-container").style.display = "none";
+  document.getElementById("init-container").style.display = "none";
 }
 
 //createPlaylist Global Vars
 
-
-
 function createPlaylist() {
-
   let playlistName = playlistInput.value.toString();
   let user_id = userInfo[2];
 
@@ -142,105 +129,36 @@ function createPlaylist() {
         "Content-Type": "application/json",
         Authorization: "Bearer " + _token,
       },
-        body: JSON.stringify({name: playlistName, public: false}),
-        json: true,
+      body: JSON.stringify({ name: playlistName, public: false }),
+      json: true,
     }).then((response) => {
-      console.log(
-        response.json().then((data) => {
-          console.log("hey it worked, look at this: " + data);
-        })
-      );
+      response.json().then((data) => {});
     });
     hideLandingPage();
     playlistNames = empty;
     getUserPlaylists();
     playlistNames.unshift(playlistName);
     playlistInput.value = "";
-
   }
 }
 
 //Making that New Playlist button glow like a champion.
 
-function plusIconGlow(){
-    document.getElementById("plus").src = "./img/white-plus.svg";
-    document.getElementById("new-playlist").style.color = "white";
+function plusIconGlow() {
+  document.getElementById("plus").src = "./img/white-plus.svg";
+  document.getElementById("new-playlist").style.color = "white";
 }
 
-function plusIconDull(){
-    document.getElementById("plus").src = "./img/plus.svg"
-    document.getElementById("new-playlist").style.color = "rgb(196, 194, 202)";
+function plusIconDull() {
+  document.getElementById("plus").src = "./img/plus.svg";
+  document.getElementById("new-playlist").style.color = "rgb(196, 194, 202)";
 }
 
 //onclick for creating new playlist from logged in ui
 
-function makeAnotherPlaylist(){
-    document.getElementById("init-container").style.display = "grid";
+function makeAnotherPlaylist() {
+  document.getElementById("init-container").style.display = "grid";
 }
-
-//Global Arrays for getSimilarArtists storage
-
-let similarArtists = [];
-
-function getSimilarArtists() {
-
-    let bandID = "";
-    let initArtist = document.querySelector("#artist-search").value.toString();
-    initArtist = initArtist.split(' ').join('+');
-
-    if(initArtist !== "") {
-
-    fetch("https://api.spotify.com/v1/search?query=" + initArtist + "&offset=0&limit=1&type=artist", {
-    method: "GET",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + _token,
-    },
-  }).then((response) => {
-    console.log(
-      response.json().then((data) => {
-
-        bandId = data.artists.items[0].id;
-
-        fetch(`https://api.spotify.com/v1/artists/${bandId}/related-artists`, {
-        method: "GET",
-        headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + _token,
-        },
-    }).then((response) => {
-        console.log(
-        response.json().then((data) => {
-            similarArtists = data;
-            console.log(similarArtists);
-        })
-        );
-    });
-
-      })
-    );
-  });
-
-  document.querySelector("#artist-search").value = "";
-  document.querySelector("#artist-search").style.border = "none";
-  document.querySelector("#artist-search").placeholder = "Search";
-
-  } else {
-    document.querySelector("#artist-search").style.border = "3px solid red";
-    document.querySelector("#artist-search").placeholder = "Enter an artist's name.";
-  }
-
-}
-
-const artistSearchBox = document.getElementById("artist-search");
-
-artistSearchBox.addEventListener("keypress", function(e){
-    if(e.key === "Enter") {
-        getSimilarArtists();
-    }
-});
 
 //Carousel of Similar Artists.
 
@@ -251,29 +169,126 @@ const numberOfCards = document.querySelectorAll(".carousel-img").length;
 let imageIndex = 1;
 let translateX = 0;
 
-
-
-prev.addEventListener("click", e => {
-    if(e.target.id === "previous") {
-        if(imageIndex !== 1) {
-            imageIndex--;
-            translateX += 1022;
-        }
+prev.addEventListener("click", (e) => {
+  if (e.target.id === "previous") {
+    if (imageIndex !== 1) {
+      imageIndex--;
+      translateX += 1060;
     }
-    carouselImgs.style.transform = `translateX(${translateX}px)`;
-})
+  }
+  carouselImgs.style.transform = `translateX(${translateX}px)`;
+});
 
-next.addEventListener("click", e => {
-    if(e.target.id === "next") {
-        if(imageIndex <= 4) {
-            imageIndex++;
-            translateX -= 1022;
-        }
+next.addEventListener("click", (e) => {
+  if (e.target.id === "next") {
+    if (imageIndex <= 4) {
+      imageIndex++;
+      translateX -= 1060;
     }
-    carouselImgs.style.transform = `translateX(${translateX}px)`;
-})
+  }
+  carouselImgs.style.transform = `translateX(${translateX}px)`;
+});
+
+//Global Arrays for getSimilarArtists storage
+
+let similarArtists = [];
+
+function clearArtistsDisplay() {
+  document.getElementById("carouselImgs").innerHTML = "";
+}
+
+function getSimilarArtists() {
+  let bandID = "";
+  let initArtist = document.querySelector("#artist-search").value.toString();
+  initArtist = initArtist.split(" ").join("+");
+
+  if (initArtist !== "") {
+    fetch(
+      "https://api.spotify.com/v1/search?query=" +
+        initArtist +
+        "&offset=0&limit=1&type=artist",
+      {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + _token,
+        },
+      }
+    ).then((response) => {
+      response.json().then((data) => {
+        bandId = data.artists.items[0].id;
+
+        fetch(`https://api.spotify.com/v1/artists/${bandId}/related-artists`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + _token,
+          },
+        }).then((response) => {
+          response.json().then((data) => {
+            similarArtists = data;
+            console.log(similarArtists);
+            clearArtistsDisplay();
+            populateDivWithArtists();
+          });
+        });
+      });
+    });
+
+    document.querySelector("#artist-search").value = "";
+    document.querySelector("#artist-search").style.border = "none";
+    document.querySelector("#artist-search").placeholder = "Search";
+  } else {
+    document.querySelector("#artist-search").style.border = "3px solid red";
+    document.querySelector("#artist-search").placeholder =
+      "Enter an artist's name.";
+  }
+
+  //Append Cards to artist-display div.
+  
+}
+
+let artistDisplay = document.getElementById("carouselImgs");
+
+function populateDivWithArtists() {
+
+  if(similarArtists.artists.length > 10) {
+    for (let i = 0; i < similarArtists.artists.length; i++)  {
+      let artistBox = document.createElement("span");
+      let artistImg = document.createElement("img");
+      let artistName = document.createElement("p");
+      artistBox.className = "carousel-card";
+      artistImg.className = "carousel-img";
+      artistName.className = "artist-name";
+      artistImg.src = similarArtists.artists[i].images[0].url;
+      artistName.textContent = similarArtists.artists[i].name;
+      artistDisplay.appendChild(artistBox);
+      artistBox.appendChild(artistImg);
+      artistBox.appendChild(artistName);
+  }
+  } else {
+    console.log("unfortunately, we got an else");
+  }
 
 
+  
+}
 
 
+function clearInput() {
+  document.querySelector("#artist-search").placeholder = "";
+}
 
+function replacePlaceholderText() {
+  document.querySelector("#artist-search").placeholder = "Search";
+}
+
+const artistSearchBox = document.getElementById("artist-search");
+
+artistSearchBox.addEventListener("keypress", function (e) {
+  if (e.key === "Enter") {
+    getSimilarArtists();
+  }
+});
