@@ -245,10 +245,10 @@ function getSimilarArtists() {
     document.querySelector("#artist-search").placeholder =
       "Enter an artist's name.";
   }
-
-  //Append Cards to artist-display div.
   
 }
+
+ //Append Cards to artist-display div.
 
 const artistDisplay = document.getElementById("carouselImgs");
 
@@ -256,15 +256,25 @@ function populateDivWithArtists() {
 
     for (let i = 0; i < similarArtists.artists.length; i++)  {
       let artistBox = document.createElement("span");
+      let imgContainer = document.createElement("div");
       let artistImg = document.createElement("img");
+      let overlay = document.createElement("div");
       let artistName = document.createElement("p");
+      let playButton = document.createElement("img");
       artistBox.className = "carousel-card";
+      imgContainer.className = "img-container";
       artistImg.className = "carousel-img";
       artistName.className = "artist-name";
+      overlay.className = "overlay";
+      playButton.className = "play-button";
+      playButton.src="./img/play.svg"
       artistImg.src = similarArtists.artists[i].images[0].url;
       artistName.textContent = similarArtists.artists[i].name;
       artistDisplay.appendChild(artistBox);
-      artistBox.appendChild(artistImg);
+      artistBox.appendChild(imgContainer)
+      imgContainer.appendChild(artistImg);
+      imgContainer.appendChild(overlay);
+      overlay.appendChild(playButton);
       artistBox.appendChild(artistName);
   }
   
