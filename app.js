@@ -250,11 +250,10 @@ function getSimilarArtists() {
   
 }
 
-let artistDisplay = document.getElementById("carouselImgs");
+const artistDisplay = document.getElementById("carouselImgs");
 
 function populateDivWithArtists() {
 
-  if(similarArtists.artists.length > 10) {
     for (let i = 0; i < similarArtists.artists.length; i++)  {
       let artistBox = document.createElement("span");
       let artistImg = document.createElement("img");
@@ -268,11 +267,6 @@ function populateDivWithArtists() {
       artistBox.appendChild(artistImg);
       artistBox.appendChild(artistName);
   }
-  } else {
-    console.log("unfortunately, we got an else");
-  }
-
-
   
 }
 
