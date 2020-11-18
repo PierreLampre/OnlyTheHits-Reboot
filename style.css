@@ -360,3 +360,17 @@ body {
   width: 90%;
   margin: 0 auto;
 }
+
+/* Player Styles */
+
+#player {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 100px;
+    width: 100%;
+    background-color: var(--player-bg-color);
+    z-index: 100;
+    display: none;
+    transition: 0.5s ease;
+ }

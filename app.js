@@ -251,6 +251,11 @@ function getSimilarArtists() {
  //Append Cards to artist-display div.
 
 const artistDisplay = document.getElementById("carouselImgs");
+let playbackBandId = "";
+
+function setPlaybackBandId(id) {
+  playbackBandId = id;
+}
 
 function populateDivWithArtists() {
 
@@ -261,25 +266,67 @@ function populateDivWithArtists() {
       let overlay = document.createElement("div");
       let artistName = document.createElement("p");
       let playButton = document.createElement("img");
+
       artistBox.className = "carousel-card";
       imgContainer.className = "img-container";
       artistImg.className = "carousel-img";
       artistName.className = "artist-name";
+      artistName.setAttribute("data-id", similarArtists.artists[i].id);
       overlay.className = "overlay";
+      overlay.setAttribute("data-id", similarArtists.artists[i].id);
       playButton.className = "play-button";
       playButton.src="./img/play.svg"
       artistImg.src = similarArtists.artists[i].images[0].url;
       artistName.textContent = similarArtists.artists[i].name;
+
       artistDisplay.appendChild(artistBox);
       artistBox.appendChild(imgContainer)
       imgContainer.appendChild(artistImg);
       imgContainer.appendChild(overlay);
       overlay.appendChild(playButton);
       artistBox.appendChild(artistName);
+
+      overlay.addEventListener("click", function() { 
+        setPlaybackBandId(overlay.dataset.id);
+        getSimilarTracks(); 
+      })
+
+      artistName.addEventListener("click", function() { 
+        setPlaybackBandId(artistName.dataset.id);
+        getSimilarTracks();
+      })
   }
   
 }
 
+//Pull similar artist's top ten tracks from spotify api
+
+let similarTracksArr = [];
+
+function getSimilarTracks() {
+
+      fetch(`https://api.spotify.com/v1/artists/${playbackBandId}/top-tracks?country=US`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + _token,
+        },
+      }).then((response) => {
+        response.json().then((data) => {
+          similarTracksArr = [];
+          similarTracksArr.push(data);
+          console.log(similarTracksArr);
+          console.log(similarTracksArr[0].tracks[0].name);
+        });
+      });
+}
+
+let player = document.querySelector("#player");
+
+function showPlayer() {
+  player.style.display = "block";
+}
 
 function clearInput() {
   document.querySelector("#artist-search").placeholder = "";
