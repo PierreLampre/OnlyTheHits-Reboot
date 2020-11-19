@@ -229,7 +229,6 @@ function getSimilarArtists() {
         }).then((response) => {
           response.json().then((data) => {
             similarArtists = data;
-            console.log(similarArtists);
             clearArtistsDisplay();
             populateDivWithArtists();
           });
@@ -252,9 +251,16 @@ function getSimilarArtists() {
 
 const artistDisplay = document.getElementById("carouselImgs");
 let playbackBandId = "";
+let selectedArtistImgUrl = "";
+let selectedArtistName = "";
 
 function setPlaybackBandId(id) {
   playbackBandId = id;
+}
+
+function setArtistImgUrlAndName(url, name) {
+  selectedArtistImgUrl = url;
+  selectedArtistName = name;
 }
 
 function populateDivWithArtists() {
@@ -277,7 +283,9 @@ function populateDivWithArtists() {
       playButton.className = "play-button";
       playButton.src="./img/play.svg"
       artistImg.src = similarArtists.artists[i].images[0].url;
+      artistImg.setAttribute("data-imgurl", similarArtists.artists[i].images[0].url);
       artistName.textContent = similarArtists.artists[i].name;
+      artistName.setAttribute("data-name", similarArtists.artists[i].name);
 
       artistDisplay.appendChild(artistBox);
       artistBox.appendChild(imgContainer)
@@ -286,13 +294,15 @@ function populateDivWithArtists() {
       overlay.appendChild(playButton);
       artistBox.appendChild(artistName);
 
-      overlay.addEventListener("click", function() { 
+      overlay.addEventListener("click", function() {
         setPlaybackBandId(overlay.dataset.id);
+        setArtistImgUrlAndName(artistImg.dataset.imgurl, artistName.dataset.name);
         getSimilarTracks(); 
       })
 
       artistName.addEventListener("click", function() { 
         setPlaybackBandId(artistName.dataset.id);
+        setArtistImgUrlAndName(artistImg.dataset.imgurl, artistName.dataset.name);
         getSimilarTracks();
       })
   }
@@ -315,12 +325,70 @@ function getSimilarTracks() {
       }).then((response) => {
         response.json().then((data) => {
           similarTracksArr = [];
-          similarTracksArr.push(data);
+          similarTracksArr.push(data.tracks);
           console.log(similarTracksArr);
-          console.log(similarTracksArr[0].tracks[0].name);
+          populateDivWithTopTracks();
+          tracksBox.style.display = "block";
+          artistInfo.style.display = "flex"; 
         });
       });
 }
+
+const tracksBox = document.querySelector("#similarTracks");
+const artistsDiv = document.querySelector(".artists-display");
+const ad = document.querySelector("#ad");
+const artistsHeader = document.querySelector(".artists-header");
+const artistInfo = document.querySelector("#artistInfo");
+const backBtn = document.querySelector("#back");
+
+function populateDivWithTopTracks() {
+
+  tracksBox.innerHTML = "";
+  artistInfo.innerHTML = "";
+  let trackNumber = 1;
+  artistsDiv.style.display = "none";
+  ad.style.display = "none";
+  artistsHeader.style.display = "none";
+  let topTracksArtistImg = document.createElement("img");
+  topTracksArtistImg.className = "top-tracks-artist-img";
+  topTracksArtistImg.src = selectedArtistImgUrl;
+  let topTracksArtistName = document.createElement("span");
+  topTracksArtistName.className = "top-tracks-artist-name";
+  topTracksArtistName.textContent = selectedArtistName;
+  artistInfo.appendChild(topTracksArtistImg);
+  artistInfo.appendChild(topTracksArtistName);
+
+  backBtn.addEventListener("click", function() { 
+    tracksBox.style.display = "none";
+    artistInfo.style.display = "none";
+    artistsDiv.style.display = "flex";
+    ad.style.display = "block";
+    artistsHeader.style.display = "flex";
+  });
+
+  for (let i = 0; i < similarTracksArr[0].length; i++) {
+    let singleTrackBox = document.createElement("div");
+    singleTrackBox.className = "single-track-box";
+    let albumImg = document.createElement("img");
+    albumImg.className = "album-img";
+    albumImg.src = similarTracksArr[0][i].album.images[2].url;
+    let trackNumberBox = document.createElement("span");
+    trackNumberBox.className = "track-number-box";
+    trackNumberBox.textContent = trackNumber;
+    let trackName = document.createElement("p");
+    trackName.className = "track-name";
+    trackName.textContent = similarTracksArr[0][i].name;
+
+    tracksBox.appendChild(singleTrackBox);
+    singleTrackBox.appendChild(albumImg);
+    singleTrackBox.appendChild(trackNumberBox);
+    singleTrackBox.appendChild(trackName);
+    trackNumber++;
+  }
+
+}
+
+
 
 let player = document.querySelector("#player");
 

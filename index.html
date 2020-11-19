@@ -46,7 +46,7 @@
             <div class="middle-container">
                 <div class="search-input">
                     <div class="search-input-left">
-                        <img src="./img/back.svg" class="direct-btn" alt="back" />
+                        <img src="./img/back.svg" class="direct-btn" id="back" alt="back" />
                         <img src="./img/forward.svg" class="direct-btn" alt="forward"/>
                         <input type="text" id="artist-search" name="artist-search" placeholder="Search" onfocus="clearInput()" onblur="replacePlaceholderText()" />
                     </div>
@@ -59,7 +59,9 @@
                 </div>
                   
                 </div>
-                <a href="https://ttime.bandcamp.com/" class="ttime-ad" target="_blank"><div></div></a>
+                <a href="https://ttime.bandcamp.com/" class="ttime-ad" target="_blank">
+                    <div id="ad"></div>
+                </a>
                 <div class="middle-content">
                     <div class="artists">
                         <div class="artists-header">
@@ -73,6 +75,9 @@
                             <div class="carousel-imgs" id="carouselImgs">
                                 <div class="suggestion">Search for similar artists...</div>
                             </div>
+                        </div>
+                        <div id="artistInfo">
+
                         </div>
                         <div id="similarTracks">
                             

@@ -331,6 +331,46 @@ body {
     cursor: pointer;
 }
 
+.single-track-box {
+    display: flex;
+    align-items: center;
+    border-top: 2px solid var(--grey);
+}
+
+.album-img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.track-number-box {
+  padding: 0 8px;
+  margin-right: 30px;
+}
+
+#artistInfo{
+  margin-top: -160px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  padding: 16px;
+}
+
+#similarTracks {
+  margin-left: 16px;
+  margin-top: -140px;
+}
+
+.top-tracks-artist-img {
+  height: 150px;
+  width: 150px;
+  margin-right: 20px;
+}
+
+.top-tracks-artist-name {
+  font-size: 50px;
+}
+
 /* Right Container Styles */
 
 .right-container {
