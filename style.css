@@ -29,7 +29,6 @@ body {
   align-items: center;
   justify-items: center;
   grid-template-rows: 20% 80%;
-  /* display: none; */
 }
 
 .init-header {
@@ -80,7 +79,7 @@ body {
 
 .logged-in-container {
   display: grid;
-  grid-template-columns: 15% 70% 15%;
+  grid-template-columns: 15% auto 255.6px;
 }
 
 /* Left Container Styles */
@@ -223,15 +222,11 @@ body {
   grid-row: 2 / 3;
 }
 
-.ttime-ad > div {
-  background-image: url("./img/tea-time.png");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position-x: 50%;
-  width: auto;
-  height: 100%;
+.ttime-ad > img {
+  object-fit: contain;
+  width: 100%;
+  height: 100%; 
 }
-
 .artists {
   display: grid;
   grid-template-rows: 25% 75%;
@@ -253,7 +248,7 @@ body {
   justify-content: center;
   overflow: hidden;
   position: relative;
-  width: 1030px;
+  width: 100%;
 }
 
 .middle-content {
@@ -262,6 +257,7 @@ body {
 
 .carousel-imgs {
   display: flex;
+  width: 100%;
   transform: translateX(0);
   transition: transform 0.5s;
   padding: 0 40px;
@@ -269,7 +265,7 @@ body {
 }
 
 .carousel-card {
-  margin-right: 15px;
+  margin-right: 55px;
   width: 250px;
   height: 300px;
 }
@@ -318,10 +314,6 @@ body {
   height: 200px;
 }
 
-.carousel-card:first-of-type {
-  margin-left: 4340px;
-}
-
 .artist-name {
   margin-top: 12px;
 }
@@ -337,6 +329,10 @@ body {
     border-top: 2px solid var(--grey);
 }
 
+.single-track-box:hover {
+  background-color: #282828;
+}
+
 .album-img {
   width: 40px;
   height: 40px;
@@ -345,9 +341,27 @@ body {
 
 .track-number-box {
   padding: 0 8px;
-  margin-right: 30px;
+  margin-right: 8px;
 }
 
+.first {
+  margin-right: 11px;
+}
+
+.last-track-number-box {
+  padding: 0 8px;
+  margin-right: 1px;
+}
+
+.track-play-btn {
+  margin: 0 12px;
+  border-radius: 50px;
+  border: 1px solid white;
+}
+
+.track-play-btn:hover {
+  cursor: pointer;
+}
 #artistInfo{
   margin-top: -160px;
   height: 150px;
@@ -362,8 +376,8 @@ body {
 }
 
 .top-tracks-artist-img {
-  height: 150px;
-  width: 150px;
+  height: 120px;
+  width: 120px;
   margin-right: 20px;
 }
 
@@ -407,10 +421,61 @@ body {
     position: fixed;
     left: 0px;
     bottom: 0px;
-    height: 100px;
+    height: 85px;
     width: 100%;
     background-color: var(--player-bg-color);
     z-index: 100;
     display: none;
     transition: 0.5s ease;
  }
+
+ #spotifyPlayer {
+   width: 100vw;
+   height: 180px;
+ }
+
+ /* Media Queries */
+
+ .left-container {
+  grid-column: 1 / 2;
+  height: 100vh;
+  background-color: var(--sidebar-bg-color);
+}
+
+@media screen and (max-width: 923px) {
+  .left-container {
+    display: none;
+  }
+
+  .top-tracks-artist-name {
+    font-size: 36px;
+  } 
+
+  .logged-in-container {
+    display: grid;
+    grid-template-columns: 0 auto 255.6px;
+  }
+
+}
+
+@media screen and (max-width: 784px) {
+
+  .logged-in-container {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 70vh 30vh;
+  }
+
+  .middle-container {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+  }
+
+  .right-container {
+    grid-row: 2 / 3;
+    grid-column: 1 / 2;
+    height: 100%;
+    max-height: 30vh;
+  }
+
+}

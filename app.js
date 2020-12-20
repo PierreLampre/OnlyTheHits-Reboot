@@ -36,6 +36,20 @@ if (!_token) {
 
 let userInfo = [];
 
+//Listener for browser window size. trust me it's important.
+
+let width;
+let spotifyPlayer;
+
+function checkWidth(){
+  width = parseInt(window.innerWidth);
+  // console.log("here's the width: " + width);
+}
+
+window.addEventListener("load", checkWidth);
+
+window.onresize = checkWidth;
+
 //Grab user info onload
 
 function getUserInfo() {
@@ -94,6 +108,12 @@ function getUserPlaylists() {
   });
 }
 
+let loggedInContainer = document.querySelector(".logged-in-container");
+
+window.addEventListener("load", (event) => {
+  loggedInContainer.style.display = "none";
+});
+
 //Handle case that user triggers function with no text input
 
 let playlistInput = document.getElementById("playlistName");
@@ -110,6 +130,7 @@ function undoPlaylistNameErrorHandle() {
 
 function hideLandingPage() {
   document.getElementById("init-container").style.display = "none";
+  loggedInContainer.style.display = "grid";
 }
 
 //createPlaylist Global Vars
@@ -158,6 +179,7 @@ function plusIconDull() {
 
 function makeAnotherPlaylist() {
   document.getElementById("init-container").style.display = "grid";
+  loggedInContainer.style.display = "none";
 }
 
 //Carousel of Similar Artists.
@@ -173,7 +195,7 @@ prev.addEventListener("click", (e) => {
   if (e.target.id === "previous") {
     if (imageIndex !== 1) {
       imageIndex--;
-      translateX += 1060;
+      translateX += 1020;
     }
   }
   carouselImgs.style.transform = `translateX(${translateX}px)`;
@@ -183,13 +205,11 @@ next.addEventListener("click", (e) => {
   if (e.target.id === "next") {
     if (imageIndex <= 4) {
       imageIndex++;
-      translateX -= 1060;
+      translateX -= 1020;
     }
   }
   carouselImgs.style.transform = `translateX(${translateX}px)`;
-});
-
-//Global Arrays for getSimilarArtists storage
+})
 
 let similarArtists = [];
 
@@ -228,9 +248,12 @@ function getSimilarArtists() {
           },
         }).then((response) => {
           response.json().then((data) => {
+            console.log(data);
             similarArtists = data;
             clearArtistsDisplay();
             populateDivWithArtists();
+            console.log(box);
+            console.log(box.offsetWidth);
           });
         });
       });
@@ -244,10 +267,9 @@ function getSimilarArtists() {
     document.querySelector("#artist-search").placeholder =
       "Enter an artist's name.";
   }
-  
 }
 
- //Append Cards to artist-display div.
+//Append Cards to artist-display div.
 
 const artistDisplay = document.getElementById("carouselImgs");
 let playbackBandId = "";
@@ -264,49 +286,50 @@ function setArtistImgUrlAndName(url, name) {
 }
 
 function populateDivWithArtists() {
+  for (let i = 0; i < similarArtists.artists.length; i++) {
+    let artistBox = document.createElement("span");
+    let imgContainer = document.createElement("div");
+    let artistImg = document.createElement("img");
+    let overlay = document.createElement("div");
+    let artistName = document.createElement("p");
+    let playButton = document.createElement("img");
 
-    for (let i = 0; i < similarArtists.artists.length; i++)  {
-      let artistBox = document.createElement("span");
-      let imgContainer = document.createElement("div");
-      let artistImg = document.createElement("img");
-      let overlay = document.createElement("div");
-      let artistName = document.createElement("p");
-      let playButton = document.createElement("img");
+    artistBox.className = "carousel-card";
+    imgContainer.className = "img-container";
+    artistImg.className = "carousel-img";
+    artistName.className = "artist-name";
+    artistName.setAttribute("data-id", similarArtists.artists[i].id);
+    overlay.className = "overlay";
+    overlay.setAttribute("data-id", similarArtists.artists[i].id);
+    playButton.className = "play-button";
+    playButton.src = "./img/play.svg";
+    artistImg.src = similarArtists.artists[i].images[0].url;
+    artistImg.setAttribute(
+      "data-imgurl",
+      similarArtists.artists[i].images[0].url
+    );
+    artistName.textContent = similarArtists.artists[i].name;
+    artistName.setAttribute("data-name", similarArtists.artists[i].name);
 
-      artistBox.className = "carousel-card";
-      imgContainer.className = "img-container";
-      artistImg.className = "carousel-img";
-      artistName.className = "artist-name";
-      artistName.setAttribute("data-id", similarArtists.artists[i].id);
-      overlay.className = "overlay";
-      overlay.setAttribute("data-id", similarArtists.artists[i].id);
-      playButton.className = "play-button";
-      playButton.src="./img/play.svg"
-      artistImg.src = similarArtists.artists[i].images[0].url;
-      artistImg.setAttribute("data-imgurl", similarArtists.artists[i].images[0].url);
-      artistName.textContent = similarArtists.artists[i].name;
-      artistName.setAttribute("data-name", similarArtists.artists[i].name);
+    artistDisplay.appendChild(artistBox);
+    artistBox.appendChild(imgContainer);
+    imgContainer.appendChild(artistImg);
+    imgContainer.appendChild(overlay);
+    overlay.appendChild(playButton);
+    artistBox.appendChild(artistName);
 
-      artistDisplay.appendChild(artistBox);
-      artistBox.appendChild(imgContainer)
-      imgContainer.appendChild(artistImg);
-      imgContainer.appendChild(overlay);
-      overlay.appendChild(playButton);
-      artistBox.appendChild(artistName);
+    overlay.addEventListener("click", function () {
+      setPlaybackBandId(overlay.dataset.id);
+      setArtistImgUrlAndName(artistImg.dataset.imgurl, artistName.dataset.name);
+      getSimilarTracks();
+    });
 
-      overlay.addEventListener("click", function() {
-        setPlaybackBandId(overlay.dataset.id);
-        setArtistImgUrlAndName(artistImg.dataset.imgurl, artistName.dataset.name);
-        getSimilarTracks(); 
-      })
-
-      artistName.addEventListener("click", function() { 
-        setPlaybackBandId(artistName.dataset.id);
-        setArtistImgUrlAndName(artistImg.dataset.imgurl, artistName.dataset.name);
-        getSimilarTracks();
-      })
+    artistName.addEventListener("click", function () {
+      setPlaybackBandId(artistName.dataset.id);
+      setArtistImgUrlAndName(artistImg.dataset.imgurl, artistName.dataset.name);
+      getSimilarTracks();
+    });
   }
-  
 }
 
 //Pull similar artist's top ten tracks from spotify api
@@ -314,24 +337,26 @@ function populateDivWithArtists() {
 let similarTracksArr = [];
 
 function getSimilarTracks() {
-
-      fetch(`https://api.spotify.com/v1/artists/${playbackBandId}/top-tracks?country=US`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + _token,
-        },
-      }).then((response) => {
-        response.json().then((data) => {
-          similarTracksArr = [];
-          similarTracksArr.push(data.tracks);
-          console.log(similarTracksArr);
-          populateDivWithTopTracks();
-          tracksBox.style.display = "block";
-          artistInfo.style.display = "flex"; 
-        });
-      });
+  fetch(
+    `https://api.spotify.com/v1/artists/${playbackBandId}/top-tracks?country=US`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + _token,
+      },
+    }
+  ).then((response) => {
+    response.json().then((data) => {
+      similarTracksArr = [];
+      similarTracksArr.push(data.tracks);
+      console.log(similarTracksArr);
+      populateDivWithTopTracks();
+      tracksBox.style.display = "block";
+      artistInfo.style.display = "flex";
+    });
+  });
 }
 
 const tracksBox = document.querySelector("#similarTracks");
@@ -342,7 +367,6 @@ const artistInfo = document.querySelector("#artistInfo");
 const backBtn = document.querySelector("#back");
 
 function populateDivWithTopTracks() {
-
   tracksBox.innerHTML = "";
   artistInfo.innerHTML = "";
   let trackNumber = 1;
@@ -357,13 +381,15 @@ function populateDivWithTopTracks() {
   topTracksArtistName.textContent = selectedArtistName;
   artistInfo.appendChild(topTracksArtistImg);
   artistInfo.appendChild(topTracksArtistName);
+  backBtn.style.cursor = "pointer";
 
-  backBtn.addEventListener("click", function() { 
+  backBtn.addEventListener("click", function () {
     tracksBox.style.display = "none";
     artistInfo.style.display = "none";
     artistsDiv.style.display = "flex";
     ad.style.display = "block";
     artistsHeader.style.display = "flex";
+    backBtn.style.cursor = "default";
   });
 
   for (let i = 0; i < similarTracksArr[0].length; i++) {
@@ -374,7 +400,17 @@ function populateDivWithTopTracks() {
     albumImg.src = similarTracksArr[0][i].album.images[2].url;
     let trackNumberBox = document.createElement("span");
     trackNumberBox.className = "track-number-box";
+    if (trackNumber === 1) {
+      trackNumberBox.className = "track-number-box first";
+    } else if (trackNumber === 10) {
+      trackNumberBox.className = "last-track-number-box";
+    }
     trackNumberBox.textContent = trackNumber;
+    let trackPlayBtn = document.createElement("img");
+    trackPlayBtn.className = "track-play-btn";
+    trackPlayBtn.id = trackNumber;
+    trackPlayBtn.setAttribute("data-id", similarTracksArr[0][i].id);
+    trackPlayBtn.src = "./img/play.svg";
     let trackName = document.createElement("p");
     trackName.className = "track-name";
     trackName.textContent = similarTracksArr[0][i].name;
@@ -382,13 +418,20 @@ function populateDivWithTopTracks() {
     tracksBox.appendChild(singleTrackBox);
     singleTrackBox.appendChild(albumImg);
     singleTrackBox.appendChild(trackNumberBox);
+    singleTrackBox.appendChild(trackPlayBtn);
     singleTrackBox.appendChild(trackName);
     trackNumber++;
+
+    let player = document.getElementById("player");
+    let songID = trackPlayBtn.dataset.id
+
+    trackPlayBtn.addEventListener("click", function(){
+      showPlayer();
+      player.innerHTML = `<iframe id='spotifyPlayer' src='https://open.spotify.com/embed/track/${songID}' frameborder='0' allowtransparency='true' allow='encrypted-media'></iframe>`
+    })
   }
 
 }
-
-
 
 let player = document.querySelector("#player");
 
@@ -411,3 +454,5 @@ artistSearchBox.addEventListener("keypress", function (e) {
     getSimilarArtists();
   }
 });
+
+
